@@ -7,21 +7,25 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class DangerousForest extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-	}
+				ScreenManager screenManager;
+				ResourseManager resourseManager;
+				@Override
+				public void create () {
+								//font = new BitmapFont(Gdx.files.internal("fonts/font_8.fnt"), Gdx.files.internal("fonts/font_8_0.png"), true);
+								screenManager = new ScreenManager();
 
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
-	}
+								resourseManager = new ResourseManager();
+								resourseManager.init();
+								screenManager.setResourse(resourseManager);
+
+								screenManager.setScreen(ScreenManager.MENU_SCREEN, true);
+
+				}
+
+				@Override
+				public void render () {
+								InputHandler.update();
+								screenManager.update(Gdx.graphics.getDeltaTime());
+								screenManager.draw();
+				}
 }

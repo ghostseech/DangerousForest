@@ -1,0 +1,81 @@
+package com.ghstsch.dangerousforest.ui;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+/**
+ * Created by Aaa on 24.06.2015.
+ */
+public class UiButton extends UiElement {
+    public static final int standard = 1;
+
+    private boolean wasPressed;
+    private static Texture texture_standard = new Texture(Gdx.files.internal("ui/button_1.png"));
+    private static Texture texture_standard_pressed = new Texture(Gdx.files.internal("ui/button_1_pressed.png"));
+    private float width;
+    private float height;
+    private CharSequence text;
+    private int type;
+
+    private Color textColor;
+    private Texture texture;
+    private Texture texture_pressed;
+
+    public UiButton(float x, float y, float width, float height, CharSequence text, int type, Color color, Color textColor, BitmapFont font) {
+        super(x, y, color, font);
+        wasPressed = false;
+        this.width = width;
+        this.height = height;
+        this.text = text;
+        this.type = type;
+        this.textColor = textColor;
+        if(type == standard) {
+            texture = texture_standard;
+            texture_pressed = texture_standard_pressed;
+        }
+    }
+
+    @Override
+    public  void drawElement(SpriteBatch batch) {
+        // if(type == standard) {
+        if(wasPressed) batch.draw(texture_pressed, x, y, width, height);
+        else batch.draw(texture, x, y, width, height);
+        //}
+        font.setScale(1.0f);
+        float charSize = font.getCapHeight();
+        float charScale = height / charSize / 1.6f;
+
+        font.setScale(charScale, charScale);
+
+        float translateY = (height - font.getCapHeight()) / 2;
+        float translateX = (width - (text.length() * font.getCapHeight() * 0.85f)) / 2.0f;
+
+        font.setColor(textColor);
+        font.draw(batch, text, x + translateX, y + translateY);
+    }
+    public void press(float x, float y) {
+        if((x > this.x && x < this.x + width) && (y > this.y && y < this.y + height)) wasPressed = true;
+        else wasPressed = false;
+    }
+    public boolean isClicked() {
+        if(wasPressed && !Gdx.input.isTouched())
+        {
+            wasPressed = false;
+            return true;
+        }
+        else return false;
+    }
+    public void changeTextures(Texture texture, Texture texture_pressed) {
+        this.texture = texture;
+        this.texture_pressed = texture_standard_pressed;
+    }
+    public CharSequence getText() {
+        return text;
+    }
+    public void setText(CharSequence text) {
+        this.text = text;
+    }
+}
