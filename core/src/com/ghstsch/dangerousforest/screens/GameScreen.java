@@ -49,6 +49,7 @@ public class GameScreen extends Screen {
     @Override
     public void init()
     {
+
         uiProcessor = new UiProcessor();
 
         ingameUi = new Vector<UiElement>();
@@ -109,6 +110,7 @@ public class GameScreen extends Screen {
         spriteBatch.setProjectionMatrix(worldCam.combined);
 
         controller = resourseManager.getCurrentController();
+        controller.getPlayer().setStats(resourseManager.getStats());
         b2render = new Box2DDebugRenderer(true,true,false,true,false,true);
         //b2render = new Box2DDebugRenderer(true,true,true,true,true,true);
     }
@@ -148,12 +150,9 @@ public class GameScreen extends Screen {
             controller.update(dt);
             if(controller.isGameEnded()) {
                 screenManager.setScreen(ScreenManager.UPDATE_SCREEN, true);
-                resourseManager.setPlayerStats(controller.getPlayer().getStats());
             }
         }
 
-        biomassIndicator.setText("BIOMASS:" + (int)controller.getPlayer().getStats().getBiomass());
-        healthIndicator.setText("HEALTH:" + (int)controller.getPlayer().getHealth());
     }
 
     @Override
@@ -176,16 +175,6 @@ public class GameScreen extends Screen {
             }
         }
 
-        if(InputHandler.isKeyDown(InputHandler.W))controller.getPlayer().setDir(1);
-        if(InputHandler.isKeyDown(InputHandler.D))controller.getPlayer().setDir(2);
-        if(InputHandler.isKeyDown(InputHandler.S))controller.getPlayer().setDir(3);
-        if(InputHandler.isKeyDown(InputHandler.A))controller.getPlayer().setDir(4);
-
-        if(InputHandler.isKeyDown(InputHandler.SPACE))controller.getPlayer().fire();
-        if(Gdx.input.isTouched()) {
-            if(Gdx.input.getX() > Gdx.graphics.getWidth()/2)controller.getPlayer().turnRight();
-            else controller.getPlayer().turnLeft();
-        }
     }
 
     @Override

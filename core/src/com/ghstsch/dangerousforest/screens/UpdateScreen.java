@@ -4,9 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.ghstsch.dangerousforest.PlayerStats;
 import com.ghstsch.dangerousforest.ResourseManager;
 import com.ghstsch.dangerousforest.ScreenManager;
+import com.ghstsch.dangerousforest.players.Player;
 import com.ghstsch.dangerousforest.ui.UiButton;
 import com.ghstsch.dangerousforest.ui.UiElement;
 import com.ghstsch.dangerousforest.ui.UiLabel;
@@ -18,7 +18,6 @@ import java.util.Vector;
  * Created by Aaa on 24.06.2015.
  */
 public class UpdateScreen extends Screen {
-    private PlayerStats stats;
     private UiProcessor uiProcessor;
     private Vector<UiElement> ui;
     private SpriteBatch batch;
@@ -26,15 +25,10 @@ public class UpdateScreen extends Screen {
 
     private UiLabel biomassIndicator;
 
-    private UiLabel speed;
-    private UiLabel armor;
-    private UiLabel poison;
-    private UiLabel digestion;
-
-    private UiButton speedUp;
-    private UiButton armorUp;
-    private UiButton poisonUp;
-    private UiButton digestionUp;
+    private int position;
+    private Vector<UiButton> UpButtons;
+    private UiButton ScrollDown;
+    private UiButton ScrollUp;
 
     private UiButton nextDay;
 
@@ -54,7 +48,49 @@ public class UpdateScreen extends Screen {
 
     @Override
     public void init() {
-        stats = resourseManager.getPlayerStats();
+
+        position = 0;
+        UpButtons = new Vector<UiButton>();
+
+        UpButtons.add(new UiButton(
+                230.0f, 300.0f,
+                700.0f, 120.0f,
+                "UP", UiButton.standard,
+                resourseManager.getUiColor(), resourseManager.getUiTextColor(),
+                resourseManager.getFont(0)));
+        UpButtons.add(new UiButton(
+                230.0f, 450.0f,
+                700.0f, 120.0f,
+                "UP", UiButton.standard,
+                resourseManager.getUiColor(), resourseManager.getUiTextColor(),
+                resourseManager.getFont(0)));
+        UpButtons.add(new UiButton(
+                230.0f, 600.0f,
+                700.0f, 120.0f,
+                "UP", UiButton.standard,
+                resourseManager.getUiColor(), resourseManager.getUiTextColor(),
+                resourseManager.getFont(0)));
+        UpButtons.add(new UiButton(
+                230.0f, 750.0f,
+                700.0f, 120.0f,
+                "UP", UiButton.standard,
+                resourseManager.getUiColor(), resourseManager.getUiTextColor(),
+                resourseManager.getFont(0)));
+
+
+        ScrollDown = new UiButton(
+                230.0f, 900.0f,
+                700.0f, 120.0f,
+                "NEXT", UiButton.standard,
+                resourseManager.getUiColor(), resourseManager.getUiTextColor(),
+                resourseManager.getFont(0));
+
+        ScrollUp = new UiButton(
+                230.0f, 150.0f,
+                700.0f, 120.0f,
+                "PREV", UiButton.standard,
+                resourseManager.getUiColor(), resourseManager.getUiTextColor(),
+                resourseManager.getFont(0));
 
         cam = new OrthographicCamera();
         cam.setToOrtho(true, 1920, 1080);
@@ -67,53 +103,14 @@ public class UpdateScreen extends Screen {
         uiProcessor = new UiProcessor();
         uiProcessor.setUi(ui);
 
-        speed     = new UiLabel("SPEED    :", 0.5f,
-                200.0f, 200.0f,
-                resourseManager.getUiTextColor(),
-                resourseManager.getFont(0));
 
-        armor     = new UiLabel("ARMOR    :", 0.5f,
-                200.0f, 400.0f,
-                resourseManager.getUiTextColor(),
-                resourseManager.getFont(0));
 
-        poison    = new UiLabel("POSION   :", 0.5f,
-                200.0f, 600.0f,
-                resourseManager.getUiTextColor(),
-                resourseManager.getFont(0));
-
-        digestion = new UiLabel("DIGESTION:", 0.5f,
-                200.0f, 800.0f,
-                resourseManager.getUiTextColor(),
-                resourseManager.getFont(0));
-
-        speedUp = new UiButton(
-                630.0f, 150.0f,
-                200.0f, 120.0f,
-                "BUY", UiButton.standard,
-                resourseManager.getUiColor(), resourseManager.getUiTextColor(),
-                resourseManager.getFont(0));
-
-        armorUp = new UiButton(
-                630.0f, 350.0f,
-                200.0f, 120.0f,
-                "BUY", UiButton.standard,
-                resourseManager.getUiColor(), resourseManager.getUiTextColor(),
-                resourseManager.getFont(0));
-
-        poisonUp = new UiButton(
-                630.0f, 550.0f,
-                200.0f, 120.0f,
-                "BUY", UiButton.standard,
-                resourseManager.getUiColor(), resourseManager.getUiTextColor(),
-                resourseManager.getFont(0));
-
-        digestionUp = new UiButton(
+       /* digestionUp = new UiButton(
                 630.0f, 750.0f,
                 200.0f, 120.0f,
                 "BUY", UiButton.standard,
                 resourseManager.getUiColor(), resourseManager.getUiTextColor(),
-                resourseManager.getFont(0));
+                resourseManager.getFont(0));*/
 
         nextDay = new UiButton(
                 1600.0f, 480.0f,
@@ -127,16 +124,14 @@ public class UpdateScreen extends Screen {
                 resourseManager.getUiTextColor(),
                 resourseManager.getFont(0));
 
-        ui.add(speed);
-        ui.add(armor);
-        ui.add(poison);
-        ui.add(digestion);
-        ui.add(speedUp);
-        ui.add(armorUp);
-        ui.add(poisonUp);
-        ui.add(digestionUp);
         ui.add(nextDay);
         ui.add(biomassIndicator);
+        ui.add(UpButtons.get(0));
+        ui.add(UpButtons.get(1));
+        ui.add(UpButtons.get(2));
+        ui.add(UpButtons.get(3));
+        ui.add(ScrollDown);
+        ui.add(ScrollUp);
 
     }
 
@@ -147,46 +142,38 @@ public class UpdateScreen extends Screen {
 
     @Override
     public void update(float dt) {
+
+        if(resourseManager.getStats().getStatsCount() > 4) {
+            for(int i = 0; i < 4; i++) {
+                UpButtons.get(i).setText(resourseManager.getStats().getStatName(i + position) + "  " + resourseManager.getStats().getStatValue(i + position));
+            }
+        }
         handleInput();
 
-        speed.setText    ("SPEED    :" + stats.getSpeedLevel());
-        digestion.setText("DIGESTION:" + stats.getDigestionLevel());
-        armor.setText    ("ARMOR    :" + stats.getArmorLevel());
-        poison.setText   ("POISON   :" + stats.getPoisonLevel());
-
-        biomassIndicator.setText("BIOMASS:" + stats.getBiomass());
 
         Vector<UiButton> clickedList = uiProcessor.getClickedButtonList();
         for(int i = 0; i < clickedList.size(); i++) {
-            if(clickedList.get(i) == speedUp) {
-                if(stats.getBiomass() >= stats.getStatCost(stats.getSpeedLevel())) {
-                    stats.addBiomass(-stats.getStatCost(stats.getSpeedLevel()));
-                    stats.addSpeedLevel(1);
-                }
-            }
-            else if(clickedList.get(i) == armorUp) {
-                if(stats.getBiomass() >= stats.getStatCost(stats.getArmorLevel())) {
-                    stats.addBiomass(-stats.getStatCost(stats.getArmorLevel()));
-                    stats.addArmorLevel(1);
-                }
-            }
-            else if(clickedList.get(i) == poisonUp) {
-                if(stats.getBiomass() >= stats.getStatCost(stats.getPoisonLevel())) {
-                    stats.addBiomass(-stats.getStatCost(stats.getPoisonLevel()));
-                    stats.addPoisonLevel(1);
-                }
-            }
-            else if(clickedList.get(i) == digestionUp) {
-                if(stats.getBiomass() >= stats.getStatCost(stats.getDigestionLevel())) {
-                    stats.addBiomass(-stats.getStatCost(stats.getDigestionLevel()));
-                    stats.addDigestionLevel(1);
-                }
-            }
-            else if(clickedList.get(i) == nextDay) {
-                screenManager.setScreen(ScreenManager.GAME_SCREEN, true);
+            if(clickedList.get(i) == nextDay) {
                 resourseManager.getCurrentController().generateWorld(resourseManager.getCurrentController().getCurrentDay()+1);
-                resourseManager.setPlayerStats(stats);
-                resourseManager.getCurrentController().setPlayerStats(stats);
+                screenManager.setScreen(ScreenManager.GAME_SCREEN, true);
+            }
+            else if(clickedList.get(i) == ScrollUp) {
+                if(position > 0) position--;
+            }
+            else if(clickedList.get(i) == ScrollDown) {
+                if(position + 4 < resourseManager.getStats().getStatsCount()) position++;
+            }
+            else if(clickedList.get(i) == UpButtons.get(0)) {
+                resourseManager.getStats().addToStat(position, 1.0f);
+            }
+            else if(clickedList.get(i) == UpButtons.get(1)) {
+                resourseManager.getStats().addToStat(position + 1, 1.0f);
+            }
+            else if(clickedList.get(i) == UpButtons.get(2)) {
+                resourseManager.getStats().addToStat(position + 2, 1.0f);
+            }
+            else if(clickedList.get(i) == UpButtons.get(3)) {
+                resourseManager.getStats().addToStat(position + 3, 1.0f);
             }
         }
     }

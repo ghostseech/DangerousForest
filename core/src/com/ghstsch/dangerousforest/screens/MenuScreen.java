@@ -48,7 +48,7 @@ public class MenuScreen extends Screen {
         startGameButton = new UiButton(200.0f, 300.0f, 800.0f, 140.0f, "START GAME", UiButton.standard, resourseManager.getUiColor(), resourseManager.getUiTextColor(), bigFont);
         exitGameButton = new UiButton(200.0f, 500.0f, 800.0f, 140.0f, "EXIT", UiButton.standard, resourseManager.getUiColor(), resourseManager.getUiTextColor(), bigFont);
 
-        logoLabel = new UiLabel("SNAKE SURVIVAL", 1.0f, 100.0f, 100.0f, resourseManager.getUiLabelColor(), bigFont);
+        logoLabel = new UiLabel("DANGEROUS FOREST", 1.0f, 100.0f, 100.0f, resourseManager.getUiLabelColor(), bigFont);
 
         backButton = new UiButton(200.0f, 600.0f, 800.0f, 140.0f, "BACK", UiButton.standard, resourseManager.getUiColor(), resourseManager.getUiTextColor(), bigFont);
         startForestButton = new UiButton(200.0f, 300.0f, 800.0f, 140.0f, "FOREST", UiButton.standard, resourseManager.getUiColor(), resourseManager.getUiTextColor(), bigFont);
@@ -107,6 +107,11 @@ public class MenuScreen extends Screen {
             else if(button == startForestButton) {
                 resourseManager.setWorldController(new ForestWorldController());
                 screenManager.setScreen(ScreenManager.GAME_SCREEN, true);
+                resourseManager.getStats().addStat("SPEED");
+                resourseManager.getStats().addStat("POISON");
+                resourseManager.getStats().addStat("HEALTH");
+                resourseManager.getStats().addStat("ARMOR");
+                resourseManager.getStats().addStat("DIGESTION");
             }
         }
     }

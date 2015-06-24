@@ -4,10 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.ghstsch.dangerousforest.PlayerStats;
 import com.ghstsch.dangerousforest.objects.GameObject;
 import com.ghstsch.dangerousforest.objects.PhysicalObject;
-import com.ghstsch.dangerousforest.objects.Player;
+import com.ghstsch.dangerousforest.players.Player;
 
 import java.util.Vector;
 
@@ -60,9 +59,6 @@ public abstract class WorldController {
         }
     }
 
-    public void setPlayerStats(PlayerStats stats) {
-        player.setStats(stats);
-    }
 
     public World getWorld() {
         return world;

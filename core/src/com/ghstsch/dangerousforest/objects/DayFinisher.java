@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
+import com.ghstsch.dangerousforest.players.Bug;
 import com.ghstsch.dangerousforest.worlds.WorldController;
 
 /**
@@ -59,9 +60,10 @@ public class DayFinisher extends PhysicalObject {
 
     @Override
     public void resolveCollision(PhysicalObject object) {
-        if(object.getClass() == SnakeSegment.class) {
-            if(((SnakeSegment)object).isHead()) controller.endGame();
+        if(object.getClass() == Bug.class) {
+            controller.endGame();
         }
+
     }
     @Override
     public void dispose() {

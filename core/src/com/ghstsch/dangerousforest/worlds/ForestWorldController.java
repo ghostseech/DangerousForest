@@ -2,6 +2,8 @@ package com.ghstsch.dangerousforest.worlds;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.ghstsch.dangerousforest.objects.*;
+import com.ghstsch.dangerousforest.players.Bug;
+import com.ghstsch.dangerousforest.players.Player;
 
 import java.util.Vector;
 
@@ -27,14 +29,28 @@ public class ForestWorldController extends WorldController{
 
         removeDeadObjects();
         resolveCollisions();
-
         for(int i = 0; i < objectList.size(); i++) objectList.get(i).update(dt);
     }
 
     private void generateWroldBorder() {
-        for(int i = 0; i < 100; i++) {
-            float x = MathUtils.cos(360.0f / 100.0f * i * 0.017f) * 125.0f;
-            float y = MathUtils.sin(360.0f / 100.0f * i * 0.017f) * 125.0f;
+        for(int i = 0; i < 20; i++) {
+                float x = -150.0f + i * 15.0f;
+                float y = 150.0f;
+                objectList.add(new Stone(x, y, 0, world, 30.0f, 50.0f));
+        }
+        for(int i = 0; i < 20; i++) {
+            float x = -150.0f + i * 15.0f;
+            float y = -150.0f;
+            objectList.add(new Stone(x, y, 0, world, 30.0f, 50.0f));
+        }
+        for(int i = 0; i < 20; i++) {
+                float x = 150.0f;
+                float y = - 150.0f + i * 15.0f;
+            objectList.add(new Stone(x, y, 0, world, 30.0f, 50.0f));
+        }
+        for(int i = 0; i < 20; i++) {
+            float x = -150.0f;
+            float y = -150.0f + i * 15.0f;
             objectList.add(new Stone(x, y, 0, world, 30.0f, 50.0f));
         }
     }
@@ -99,12 +115,11 @@ public class ForestWorldController extends WorldController{
 
         this.day = day;
         System.out.println(day);
-        player = new Player(0.0f, 0.0f, 0.0f, world);
+        player = new Bug(0.0f, 0.0f, 0.0f, world);
 
         //objectList.add(new Ground(0.0f, 0.0f, 0.0f, world, 2500.0f, 2500.0f));
         //objectList.add(new Ground(5000.0f,5000.0f));
         objectList.add(player);
-        objectList.add(new Bug(20.0f, 20.0f, 30.0f, world, player));
         //objectList.add(new Bug(20.0f, 20.0f, 30.0f, world, player));
         //objectList.add(new Fruit(Fruit.APPLE, 3.0f, 3.0f, 0.0f, world));
         //objectList.add(new Fruit(Fruit.APPLE, 15.0f, 15.0f, 30.0f, world));

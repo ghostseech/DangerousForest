@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
+import com.ghstsch.dangerousforest.players.Bug;
 
 /**
  * Created by Aaa on 24.06.2015.
@@ -78,8 +79,8 @@ public class Fruit extends PhysicalObject {
 
     @Override
     public void resolveCollision(PhysicalObject object) {
-        if(object.getClass() == SnakeSegment.class) {
-            if(((SnakeSegment)object).isHead()) dead = true;
+        if(object.getClass() == Bug.class) {
+            this.dead = true;
         }
     }
 

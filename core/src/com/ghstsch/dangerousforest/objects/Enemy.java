@@ -3,6 +3,7 @@ package com.ghstsch.dangerousforest.objects;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.ghstsch.dangerousforest.players.Player;
 
 /**
  * Created by Aaa on 24.06.2015.
@@ -33,7 +34,7 @@ public abstract class Enemy extends PhysicalObject {
     }
 
     public void attack(Player object, float damage) {
-        object.damage(damage);
+
     }
 
     @Override

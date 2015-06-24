@@ -3,6 +3,7 @@ package com.ghstsch.dangerousforest;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.ghstsch.dangerousforest.players.PlayerStats;
 import com.ghstsch.dangerousforest.worlds.WorldController;
 
 import java.util.Vector;
@@ -16,7 +17,7 @@ public class ResourseManager {
     private Color uiTextColor;
     private Color uiLabelColor;
     private WorldController currentController;
-    private PlayerStats playerStats;
+    private PlayerStats stats;
 
     public void init() {
         fonts = new Vector<BitmapFont>();
@@ -24,23 +25,14 @@ public class ResourseManager {
         uiTextColor = new Color(1.0f, 0.0f, 0.0f, 1.0f);
         uiLabelColor = new Color(1.0f, 0.0f, 0.0f, 1.0f);
         fonts.add(new BitmapFont(Gdx.files.internal("fonts/font_8.fnt"), Gdx.files.internal("fonts/font_8_0.png"), true, true));
+        stats = new PlayerStats();
 
-        playerStats = new PlayerStats();
     }
 
     public void setWorldController(WorldController controller) {
         currentController = controller;
     }
-    public PlayerStats getPlayerStats() {
-        return playerStats;
-    }
-    public void setPlayerStats(PlayerStats stats) {
-        playerStats.setArmorLevel(stats.getArmorLevel());
-        playerStats.setPoisonLevel(stats.getPoisonLevel());
-        playerStats.setDigestionLevel(stats.getDigestionLevel());
-        playerStats.setSpeedLevel(stats.getSpeedLevel());
-        playerStats.setBiomass(stats.getBiomass());
-    }
+
     public WorldController getCurrentController() {
         return currentController;
     }
@@ -58,5 +50,8 @@ public class ResourseManager {
     }
     public BitmapFont getFont(int id) {
         return fonts.get(id);
+    }
+    public PlayerStats getStats() {
+        return stats;
     }
 }
